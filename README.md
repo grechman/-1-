@@ -90,8 +90,8 @@ graph TD
     H --> I[Проверка на уникальность элементов]
     I --> J[Уменьшить k, если найдены одинаковые элементы]
     J --> K{k == counter?}
-    K -- Да --> L[Вывод: "YES, we can stack these cubs that way"]
-    K -- Нет --> M[Вывод: "NO, one or more of them have the same size"]
+    K -- Да --> L[Вывод: YES, we can stack these cubs that way]
+    K -- Нет --> M[Вывод: NO, one or more of them have the same size]
     L --> N[Вывод количества уникальных кубиков]
     M --> N
     N --> O[Конец]
