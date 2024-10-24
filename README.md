@@ -101,7 +101,7 @@ graph TD
     R -->|Yes| S[count--]
     R -->|No| T[Вывод Количество квадратов:  count]
     Q -->|No| T
-    T --> U{if (count == 4)}
+    T --> U{count = 4)}
     U -->|Yes| V[Вывод Все квадраты можно расположить]
     U -->|No| W[End]
     V --> W
