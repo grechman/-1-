@@ -81,23 +81,23 @@
 graph TD
     A[Start] --> B[Initialize Scanner and PrintStream]
     B --> C[Read A, B, C, D]
-    C --> D[Initialize count = 4]
-    D --> E{if (A == B)}
+    C --> D[ count = 4]
+    D --> E{A = B}
     E -->|Yes| F[count--]
-    E -->|No| G{if (A == C)}
+    E -->|No| G{A = C}
     G -->|Yes| H[count--]
-    G -->|No| I{if (A == D)}
+    G -->|No| I{A = D}
     I -->|Yes| J[count--]
-    I -->|No| K{if (B == C)}
-    K -->|Yes| L{if (A != B)}
+    I -->|No| K{B = C}
+    K -->|Yes| L{A != B}
     L -->|Yes| M[count--]
-    L -->|No| N{if (B == D)}
+    L -->|No| N{B = D}
     K -->|No| N
-    N -->|Yes| O{if (A != B)}
+    N -->|Yes| O{A != B}
     O -->|Yes| P[count--]
-    O -->|No| Q{if (C == D)}
+    O -->|No| Q{C = D}
     N -->|No| Q
-    Q -->|Yes| R{if (A != C)}
+    Q -->|Yes| R{A != C}
     R -->|Yes| S[count--]
     R -->|No| T[Print "Количество квадратов:" + count]
     Q -->|No| T
