@@ -22,10 +22,9 @@
 Данную задачу можно разделить на 2 подзадачи: сортировка и сравнение попарно чисел.
 
 - Для 1 подзадачи нужно:
-    1. `Запихнуть данные в ArrayList и отсортировать`
+    1. `Ввести данные с клавиатуры и проверить их на различия`
 - Для 2 подзадачи нужно:
-    1. `В цикле сравнить i и i-1 числа. Если они повторяются то изменяем счетчик`
-    2. `Если счетчик не равен количеству valid numbers, то есть повторяющиеся элементы, если равен то таких нет`
+    1. `Сравниваем числа и убираем счетчик, если они совпали`
 
 
 ### 2. Входные и выходные данные
@@ -53,12 +52,13 @@
 
 ### 3. Выбор структуры данных
 
-Программа получает 4 натуральных числа, поэтому будем работать с типом данных `Integer`. Для их хранения сделаем
-массив, в который будем складывать числа подходящие под задачу (>0)
-
+Программа получает 4 натуральных числа, поэтому будем работать с типом данных `int`. 
 |                 | название переменной | Тип (в Java)         | 
 |---------------|--------------------------|----------------------|
-| cub(массив) | `cub`                       | `ArrayList<Integer>`|
+| A (Число 1) | `A`                       | `int`|
+| B (Число 2) | `B`                       | `int`|
+| C (Число 3) | `C`                       | `int`|
+| D (Число 4) | `D`                       | `int`|
 
 Для вывода результата необязательно его хранить в отдельной переменной.
 
@@ -67,10 +67,10 @@
 #### Алгоритм выполнения программы:
 
 1. **Ввод данных:**  
-   Программа заполняет лист данными с клавиатуры, отбрасывая ненужные.
+   Программа вводит 4 переменные типа int.
 
 2. **Сравнение чисел:**  
-   Программа сравнивает соседние элементы. Если они равны, то увеличивается счетчик.
+   Программа сравнивает соседние элементы. Если они равны, то уменьшается счетчик.
 
 3. **Вывод результата:**  
    На экран выводится количество кубиков в башне и сообщение, задействованы ли все кубики.
@@ -79,22 +79,33 @@
 
 ```mermaid
 graph TD
-    A[Начало] --> B[Инициализация переменной k = 0 и списка cub]
-    B --> C{Ввести 4 значения}
-    C --> D[Проверить, является ли значение положительным]
-    D -- Да --> E[Добавить в cub и увеличить k]
-    D -- Нет --> F[Пропустить значение]
-    E --> G{Повторить для всех 4 значений}
-    F --> G
-    G -- Все значения введены --> H[Отсортировать cub]
-    H --> I[Проверка на уникальность элементов]
-    I --> J[Уменьшить k, если найдены одинаковые элементы]
-    J --> K{k == counter?}
-    K -- Да --> L[Вывод: YES, we can stack these cubs that way]
-    K -- Нет --> M[Вывод: NO, one or more of them have the same size]
-    L --> N[Вывод количества уникальных кубиков]
-    M --> N
-    N --> O[Конец]
+    A[Start] --> B[Initialize Scanner and PrintStream]
+    B --> C[Read A, B, C, D]
+    C --> D[Initialize count = 4]
+    D --> E{if (A == B)}
+    E -->|Yes| F[count--]
+    E -->|No| G{if (A == C)}
+    G -->|Yes| H[count--]
+    G -->|No| I{if (A == D)}
+    I -->|Yes| J[count--]
+    I -->|No| K{if (B == C)}
+    K -->|Yes| L{if (A != B)}
+    L -->|Yes| M[count--]
+    L -->|No| N{if (B == D)}
+    K -->|No| N
+    N -->|Yes| O{if (A != B)}
+    O -->|Yes| P[count--]
+    O -->|No| Q{if (C == D)}
+    N -->|No| Q
+    Q -->|Yes| R{if (A != C)}
+    R -->|Yes| S[count--]
+    R -->|No| T[Print "Количество квадратов:" + count]
+    Q -->|No| T
+    T --> U{if (count == 4)}
+    U -->|Yes| V[Print "Все квадраты можно расположить"]
+    U -->|No| W[End]
+    V --> W
+
 ```
 
 ### 5. Программа
@@ -102,12 +113,9 @@ graph TD
 ```java
 package com.company;
 
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Scanner;
 
+import java.io.PrintStream;
+import java.util.Scanner;
 public class Main {
     // Объявляем объект класса Scanner для ввода данных
     public static Scanner in = new Scanner(System.in);
@@ -115,32 +123,37 @@ public class Main {
     public static PrintStream out = System.out;
 
     public static void main(String[] args) {
-        int k = 0;
-        //Создаем лист с нашими переменными
-        var cub = new ArrayList<Integer>();
-        //заполняем его
-        for (int i = 0; i < 4; i++) {
-            int z = in.nextInt();
-            if (z > 0){ //проверка на неликвидное значение размера
-                cub.add(z);
-                k++;
-            }
-        }
-        int counter = k; //сколько в итоге реальных кубиков нам дали
-        Collections.sort(cub);
-        //сравнение кубов
-        for (int i = 1; i < counter; i++) {
-            if (Objects.equals(cub.get(i), cub.get(i - 1))) {
-                k--;
-            }
-        }
-        //Вывод
-        if (k == counter)
-            out.println("YES, we can stack these cubs that way");
-        else out.println("NO, one or more of them have the same size");
-        out.println(k + " of them we can stack");
+        // Sample input values
+        int A = in.nextInt();
+        int B = in.nextInt();
+        int C = in.nextInt();
+        int D = in.nextInt();
+
+        int count = 4; // We can always place at least one square
+
+        // Check if we can place 2 squares
+        if (A == B)
+            count--;
+        if (A == C)
+            count--;
+        if (A == D)
+            count--;
+        if (B == C)
+            if (A != B)
+                count--;
+        if (B == D)
+            if (A != B)
+                count--;
+        if (C == D)
+            if (A != C)
+                count--;
+
+        out.println("Количество квадратов: " + count);
+	if (count == 4)
+            out.println("Все квадраты можно расположить");
     }
 }
+
 ```
 
 ### 6. Анализ правильности решения
@@ -156,21 +169,20 @@ public class Main {
 
     - **Output**:
         ```
-        YES, we can stack these cubs that way
-        4 of them we can stack
+        Количество квадратов: 4
+	Все квадраты можно расположить
         ```
 
-2. Тест на `0` :
+2. Тест на `одинаковые` :
 
     - **Input**:
         ```
-        0 0 0 1
+        1 1 1 1
         ```
 
     - **Output**:
         ```
-        NO, one or more of them have the same size
-        1 of them we can stack
+        Количество квадратов: 1
         ```
 
 3. Тест на ограничение задачи:
@@ -182,6 +194,5 @@ public class Main {
 
     - **Output**:
         ```
-        NO, one or more of them have the same size
-        3 of them we can stack
+        Количество квадратов: 3
         ```
